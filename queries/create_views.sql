@@ -16,9 +16,9 @@
  */
 
 -- standardSQL
--- ============================================================================
+-- ----------------------------------------------------------------------------
 -- Partner view
--- ============================================================================
+-- ----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW `<CLOUD-PROJECT-ID>.<BQ-DATASET>.spindle_partner_view`
 OPTIONS(
  expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 30 DAY),
@@ -53,9 +53,9 @@ FROM `<CLOUD-PROJECT-ID>.<BQ-DATASET>.spindle_lineitem_view`
 GROUP BY 1,2
 ;
 
--- ============================================================================
+-- ----------------------------------------------------------------------------
 -- Advertiser view
--- ============================================================================
+-- ----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW `<CLOUD-PROJECT-ID>.<BQ-DATASET>.spindle_advertiser_view`
 OPTIONS(
  expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 30 DAY),
@@ -92,9 +92,9 @@ FROM `<CLOUD-PROJECT-ID>.<BQ-DATASET>.spindle_lineitem_view`
 GROUP BY 1,2,3,4
 ;
 
--- ============================================================================
+-- ----------------------------------------------------------------------------
 -- Campaign view
--- ============================================================================
+-- ----------------------------------------------------------------------------
 CREATE OR REPLACE VIEW `<CLOUD-PROJECT-ID>.<BQ-DATASET>.spindle_campaign_view`
 OPTIONS(
  expiration_timestamp=TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 30 DAY),

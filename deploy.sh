@@ -19,14 +19,26 @@
 
 CONFIG_FILE="$1"
 
+# check config file actually exists
+if [ ! -f "$1" ]; then
+    echo "'$1' does not exist, please check your file name and try again"
+    return 1
+fi
+
 config() {
   local result=`cat "$CONFIG_FILE" | python3 -c "import sys, json; c = json.load(sys.stdin); d = '$2' if '$2' else ''; print(c.get('$1', d));"`
   echo "$result"
 }
 
+echo "----------------------------------------------------------------"
+echo "Spindle setup in progress..."
+echo "----------------------------------------------------------------"
 # extract parameters from config file
+echo ""
+echo "Saving setup parameters from local config file:"
+echo ""
+
 # required parameters
-echo "Saving setup parameters from local config file..."
 ENVIRONMENT_NAME=$(config "environment_name")
 echo "ENVIRONMENT_NAME="$ENVIRONMENT_NAME
 CLOUD_PROJECT_ID=$(config "cloud_project_id")
@@ -44,12 +56,13 @@ echo "COMPOSER_LOCATION="$COMPOSER_LOCATION
 COMPOSER_ZONE=$(config "composer_zone")
 echo "COMPOSER_ZONE="$COMPOSER_ZONE
 
-# set the gcloud project
-gcloud config set project ${CLOUD_PROJECT_ID}
-
 # create new cloud composer instance when required
 setup_cloud_composer() {
+    echo ""
+    echo "----------------------------------------------------------------"
     echo "Creating new Composer environment..."
+    echo "----------------------------------------------------------------"
+    echo ""
     gcloud composer environments create $ENVIRONMENT_NAME \
     --machine-type=n1-standard-1 \
     --python-version=3 \
@@ -59,13 +72,16 @@ setup_cloud_composer() {
     --zone=$COMPOSER_ZONE
 
     # retrieve gcs bucket uri from new composer environment
-    gcloud composer environments describe $ENVIRONMENT_NAME --location=$COMPOSER_LOCATION
-    for fullgcspath in $(gcloud composer environments describe $ENVIRONMENT_NAME --location=$COMPOSER_LOCATION --format="value(config.dagGcsPrefix)")
-    do
+    FULL_GCS_BUCKET_PATH=$(gcloud composer environments describe $ENVIRONMENT_NAME --location=$COMPOSER_LOCATION --format="value(config.dagGcsPrefix)")
+    # validate that a new composer gcs bucket was successfully created
+    if [ -z "$FULL_GCS_BUCKET_PATH" ]; then
+        echo "Composer environment failed to generate, please re-run this script"
+        return 1
+    else
         # remove leading and trailing 5 characters
-        COMPOSER_BUCKET=$(echo $fullgcspath | sed 's/.....//;s/.....$//')
+        COMPOSER_BUCKET=$(echo $FULL_GCS_BUCKET_PATH | sed 's/.....//;s/.....$//')
         echo "COMPOSER_BUCKET="$COMPOSER_BUCKET
-    done
+    fi
     
     # create airflow variables
     echo "Creating Airflow variables..."
@@ -81,6 +97,11 @@ setup_cloud_composer() {
 
 # clone orchestra repo to local tmp directory
 deploy_orchestra() {
+    echo ""
+    echo "----------------------------------------------------------------"
+    echo "Deploying Orchestra to your Composer environment..."
+    echo "----------------------------------------------------------------"
+    echo ""
     # checks if orhcestra dir already exists
     if [ ! -d tmp/orchestra ]; then
         # clones orchestra v2 to avoid compatibility issues with future releases
@@ -117,21 +138,39 @@ deploy_orchestra() {
 
 main() {
     # check that values have been provided in .config for all required fields
-    if [$ENVIRONMENT_NAME == ""] || [$CLOUD_PROJECT_ID == ""] || [$BQ_DATASET == ""] || [$INSTALL_COMPOSER == ""]
-    then 
-        echo "environment_name, cloud_project_id, bq_dataset and install_composer are all required fields"
-        echo "Update your spindle.config and re-run the script"
+    if [ -z "$ENVIRONMENT_NAME" ] || [ -z "$CLOUD_PROJECT_ID" ] || [ -z "$BQ_DATASET" ] || [ -z "$INSTALL_COMPOSER" ]; then 
+        echo ""
+        echo "----------------------------------------------------------------"
+        echo "Deployment failed"
+        echo "----------------------------------------------------------------"
+        echo ""
+        echo "'environment_name', 'cloud_project_id', 'bq_dataset' and 'install_composer' are all required fields"
+        echo "Update your spindle.config file and re-run the script"
+        echo ""
         return 1
     else
-        # check user instruction on whether to deploy new composer environment or deploy to existing
-        if [ $INSTALL_COMPOSER = "true" ] || [ $INSTALL_COMPOSER = "True" ]
-        then
+        # set the cloud project id
+        gcloud config set project ${CLOUD_PROJECT_ID}
+        # check user instructions to deploy new composer environment or deploy to existing
+        if [ "$INSTALL_COMPOSER" = "true" ] || [ "$INSTALL_COMPOSER" = "True" ]; then
             setup_cloud_composer
             deploy_orchestra
-            echo "Intial deployment completed, complete setup steps at github.com/google/spindle"
+            echo ""
+            echo "----------------------------------------------------------------"
+            echo "Cloud deployment completed"
+            echo "----------------------------------------------------------------"
+            echo ""
+            echo "Intial deployment finished, please complete the remaining steps at github.com/google/spindle-dv360"
+            echo ""
         else
             deploy_orchestra
-            echo "Intial deployment completed, complete setup steps at github.com/google/spindle"
+            echo ""
+            echo "----------------------------------------------------------------"
+            echo "Cloud deployment completed"
+            echo "----------------------------------------------------------------"
+            echo ""
+            echo "Intial deployment finished, please complete the remaining steps at github.com/google/spindle-dv360"
+            echo ""
         fi
     fi
 }

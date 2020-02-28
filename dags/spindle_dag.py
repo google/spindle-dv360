@@ -42,6 +42,10 @@ from orchestra.google.marketing_platform.sensors.display_video_360 import (
 
 logger = logging.getLogger(__name__)
 
+# --------------------------------------------------------------------------------
+# Set variables
+# --------------------------------------------------------------------------------
+
 advertisers_report_definition = """{
   "params": {
     "type": "TYPE_GENERAL",
@@ -99,7 +103,6 @@ perf_report_definition = """{
         "METRIC_BILLABLE_IMPRESSIONS",
         "METRIC_CLICKS",
         "METRIC_CTR",
-        "METRIC_TRUEVIEW_VIEWS",
         "METRIC_TOTAL_CONVERSIONS",
         "METRIC_LAST_CLICKS",
         "METRIC_LAST_IMPRESSIONS",
@@ -128,6 +131,9 @@ def group_advertisers(l, n):
   for i in range(0, len(l), n):
     yield l[i:i + n]
 
+# --------------------------------------------------------------------------------
+# Set default arguments
+# --------------------------------------------------------------------------------
 
 default_args = {
     "owner": "airflow",
@@ -137,6 +143,10 @@ default_args = {
     "retries": 1,
     "retry_delay": timedelta(seconds=3),
 }
+
+# --------------------------------------------------------------------------------
+# Main DAG
+# --------------------------------------------------------------------------------
 
 dag = models.DAG(
     'spindle_v3',
