@@ -104,8 +104,8 @@ deploy_orchestra() {
     echo ""
     # checks if orhcestra dir already exists
     if [ ! -d tmp/orchestra ]; then
-        # clones orchestra v2 to avoid compatibility issues with future releases
-        git clone --depth=1 --branch=2.0 "https://github.com/google/orchestra.git" "tmp/orchestra"
+        # clone orchestra v2.1.1 to avoid compatibility issues with future releases
+        git clone --depth=1 --branch=2.1.1 "https://github.com/google/orchestra.git" "tmp/orchestra"
         echo "Cloned Orchestra repository to your /tmp directory"
     else
         echo "Orchestra repository already exists"
