@@ -23,6 +23,7 @@ from datetime import timedelta
 from airflow import models
 from airflow.utils import dates
 from airflow.operators.sensors import TimeDeltaSensor
+from airflow.operators.dummy_operator import DummyOperator
 from airflow.contrib.operators.gcs_to_bq import GoogleCloudStorageToBigQueryOperator
 from airflow.contrib.operators.bigquery_operator import BigQueryOperator
 import logging
@@ -252,6 +253,9 @@ create_bq_views = BigQueryOperator(
     dag=dag
 )
 
+start_sdf = DummyOperator(task_id='start_sdf', dag=dag)
+end_sdf = DummyOperator(task_id='end_sdf', dag=dag)
+
 sdf_tasks = []
 first = True
 for partner, advertisers in advertisers_per_partner.items():
@@ -278,4 +282,7 @@ for partner, advertisers in advertisers_per_partner.items():
             dag=dag)
         sdf_tasks.append(task)
 
-create_report >> run_report >> wait_for_report >> record_advertisers >> delete_report >> sdf_tasks[0] >> sdf_tasks[1:] >> create_performance_report >> run_performance_report >> wait_for_performance_report >> download_report_to_gcs >> load_csv_to_bq >> create_bq_table >> create_bq_views
+create_report >> run_report >> wait_for_report >> record_advertisers >> delete_report >> start_sdf
+start_sdf >> sdf_tasks[0:] >> end_sdf
+end_sdf >> create_performance_report >> run_performance_report >> wait_for_performance_report >> download_report_to_gcs
+download_report_to_gcs >> load_csv_to_bq >> create_bq_table >> create_bq_views
