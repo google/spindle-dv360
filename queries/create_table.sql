@@ -178,25 +178,25 @@ WITH SDF AS (
 
 Report AS (
   SELECT
-  Report.Date as report_date,
-  Report.Partner_ID AS partner_id,
+  SAFE_CAST(REGEXP_REPLACE(Report.Date, r"\/", "-") AS Date) AS report_date,
+  SAFE_CAST(Report.Partner_ID AS INT64) AS partner_id,
   Report.Partner AS partner_name,
-  Report.Advertiser_ID AS advertiser_id,
+  SAFE_CAST(Report.Advertiser_ID AS INT64) AS advertiser_id,
   Report.Advertiser AS advertiser_name,
-  Report.Campaign_ID AS campaign_id,
+  SAFE_CAST(Report.Campaign_ID AS INT64) AS campaign_id,
   Report.Campaign AS campaign_name,
-  Report.Insertion_Order_ID AS io_id,
+  SAFE_CAST(Report.Insertion_Order_ID AS INT64) AS io_id,
   Report.Insertion_Order AS io_name,
   Report.Line_Item AS lineitem_name,
-  Report.Line_Item_ID AS lineitem_id,
+  SAFE_CAST(Report.Line_Item_ID AS INT64) AS lineitem_id,
   -- Example naming convention check using regular expression. Checks LineItem name for given criteria
   REGEXP_CONTAINS(Report.Line_Item, r"\b(Display|Video|TrueView|display|video|trueview)\b") AS lineitem_naming_convention,
-  SUM(CAST(Report.Impressions AS INT64)) AS impressions,
-  SUM(CAST(Report.Clicks AS INT64)) AS clicks,
-  ROUND(SUM(CAST(Report.Revenue__USD_ AS FLOAT64)), 2) AS revenue_usd
+  SUM(SAFE_CAST(Report.Impressions AS INT64)) AS impressions,
+  SUM(SAFE_CAST(Report.Clicks AS INT64)) AS clicks,
+  ROUND(SUM(SAFE_CAST(Report.Revenue__USD_ AS FLOAT64)), 2) AS revenue_usd
   
   FROM `<CLOUD-PROJECT-ID>.<BQ-DATASET>.Reports` AS Report
-  WHERE Report.Date = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  WHERE SAFE_CAST(REGEXP_REPLACE(Report.Date, r"\/", "-") AS Date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
   GROUP BY 1,2,3,4,5,6,7,8,9,10,11
 ),
 
