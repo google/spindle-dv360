@@ -141,8 +141,8 @@ default_args = {
     "start_date": dates.days_ago(1),
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 1,
-    "retry_delay": timedelta(seconds=3),
+    "retries": 3,
+    "retry_delay": timedelta(seconds=300),
 }
 
 # --------------------------------------------------------------------------------
@@ -254,7 +254,7 @@ create_bq_views = BigQueryOperator(
 )
 
 start_sdf = DummyOperator(task_id='start_sdf', dag=dag)
-end_sdf = DummyOperator(task_id='end_sdf', dag=dag)
+end_sdf = DummyOperator(task_id='end_sdf', dag=dag, trigger_rule='all_done')
 
 sdf_tasks = []
 first = True
