@@ -228,7 +228,7 @@ load_csv_to_bq = GoogleCloudStorageToBigQueryOperator(
     max_bad_records=100,
     source_format='CSV',
     destination_project_dataset_table=f'{sdf_bq_dataset}.Reports',
-    autodetect=True,
+    schema_object='dags/schema/report.json',
     write_disposition='WRITE_TRUNCATE',
     dag=dag
 )

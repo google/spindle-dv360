@@ -178,7 +178,7 @@ WITH SDF AS (
 
 Report AS (
   SELECT
-  SAFE_CAST(REGEXP_REPLACE(Report.Date, r"\/", "-") AS Date) AS report_date,
+  SAFE_CAST(REPLACE(Report.Date,"/","-") AS DATE) AS report_date,
   SAFE_CAST(Report.Partner_ID AS INT64) AS partner_id,
   Report.Partner AS partner_name,
   SAFE_CAST(Report.Advertiser_ID AS INT64) AS advertiser_id,
@@ -196,7 +196,8 @@ Report AS (
   ROUND(SUM(SAFE_CAST(Report.Revenue__USD_ AS FLOAT64)), 2) AS revenue_usd
   
   FROM `<CLOUD-PROJECT-ID>.<BQ-DATASET>.Reports` AS Report
-  WHERE SAFE_CAST(REGEXP_REPLACE(Report.Date, r"\/", "-") AS Date) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  WHERE SAFE_CAST(REPLACE(Report.Date,"/","-") AS DATE) = DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)
+  AND Report.Date IS NOT NULL
   GROUP BY 1,2,3,4,5,6,7,8,9,10,11
 ),
 

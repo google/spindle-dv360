@@ -53,7 +53,7 @@ For deployments to a **new** Composer instance, `spindle.config` should follow t
 | *bq_dataset* | Required | BigQuery destination dataset name | spindle_clientname |
 | *composer_gcs_bucket* | Optional | Cloud Storage bucket URI. Do not include leading 'gs://' or trailing '/dags' | Leave blank for new Composer instances |
 | *install_composer*| Required | Indicates whether to create a new Composer instance | true  |
-| *composer_location*| Required | Compute Engine [region](https://cloud.google.com/compute/docs/regions-zones#locations) | europe-west2  |
+| *composer_location*| Required | Compute Engine [region](https://cloud.google.com/compute/docs/regions-zones#locations) | europe-west1  |
 | *composer_zone* | Required | Compute Engine [zone](https://cloud.google.com/compute/docs/regions-zones#locations) | europe-west1-c |
 
 

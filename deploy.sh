@@ -134,6 +134,10 @@ deploy_orchestra() {
     # copy spindle sql queries to gcs composer bucket
     echo "Copying SQL queries to GCS bucket..."
     gsutil cp -r "./tmp/queries" "gs://$COMPOSER_BUCKET/dags/"
+
+    # copy report bigquery schema to gcs composer bucket
+    echo "Copying BQ schema to GCS bucket..."
+    gsutil cp -r "./schema" "gs://$COMPOSER_BUCKET/dags/"
 }
 
 main() {
