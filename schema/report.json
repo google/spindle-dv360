@@ -1,0 +1,162 @@
+[
+  {
+    "mode": "NULLABLE",
+    "name": "Date",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Partner",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Partner_ID",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Partner_Status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Advertiser",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Advertiser_ID",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Advertiser_Status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Advertiser_Integration_Code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Advertiser_Currency",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Campaign",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Campaign_ID",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Insertion_Order",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Insertion_Order_ID",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Insertion_Order_Status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Insertion_Order_Integration_Code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Line_Item",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Line_Item_ID",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Line_Item_Status",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Line_Item_Integration_Code",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Targeted_Data_Providers",
+    "type": "STRING"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Impressions",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Billable_Impressions",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Clicks",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Click_Rate__CTR_",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Total_Conversions",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Post_Click_Conversions",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Post_View_Conversions",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Revenue__Adv_Currency_",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Media_Cost__Advertiser_Currency_",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Media_Cost__USD_",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Total_Media_Cost__USD_",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Revenue__USD_",
+    "type": "FLOAT"
+  }
+]
