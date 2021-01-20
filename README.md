@@ -1,3 +1,5 @@
+*This is not an officially supported Google product.*
+
 # Spindle
 
 ## What is Spindle?
@@ -5,8 +7,6 @@
 Spindle is a QA and feature adoption dashboard for Display & Video 360 (DV360) advertisers. It can be used to quickly identify financial (e.g. overspend) or reputational (e.g. brand safety) risk, and validate best practice across multiple advertisers. Spindle uses a set of predefined ‘flags’ to stack rank DV360 entities according to potential risk, but is fully configurable, and can be customised to check for specific best practice or flags (e.g. adherence to naming conventions, brand safety controls, audience, geo targeting, etc).
 
 Spindle utilises [Orchestra](https://github.com/google/orchestra), an open source data orchestration tool developed on Google Cloud Composer. This repository is intended to streamline the deployment of Spindle and the necessary components from Orchestra, to a new or existing Cloud Composer environment.
-
-**This is not an officially supported Google product.**
 
 ### Architecture
 
@@ -121,8 +121,12 @@ By default, the Spindle DAG is configured to run at 10PM daily. This means that 
 2.   Open the Data Studio [report template](https://datastudio.google.com/reporting/6bb24ab5-858a-4e4a-a8d8-4409f7e0b5bb) -- click 'Make a copy of this report'. You'll be prompted to select new datasources. Swap out the 'Original data source' with the copies you created in the previous steps and click 'Copy Report'.
 3.   Your report should automatically populate with data from your new BigQuery dataset. It may take a couple of days for all charts to render correctly, as many are date filtered on today -2 days (to ensure data availability).
 
-> :warning: **Warning:** sharing the Data Studio dashboard with other users will allow them to view all data in dashboard, regardless of whether they have the underlying access permissions to view the DV360 Partner(s) surfaced in the dashboard. Access to the dashboard should be carefully managed.
+> :warning: **Warning:** sharing the Data Studio dashboard with other users will allow them to view all data in the dashboard, regardless of whether they have the underlying DV360 account access permissions to view the DV360 Partner(s) surfaced in the dashboard. Access to the dashboard should be carefully managed and controlled.
 
 ## Data & Privacy
 
 [Orchestra](https://github.com/google/orchestra) is a framework that allows powerful API access to your data. Liability for how you use that data is your own. It is important that all data you keep is secure and that you have legal permission to work and transfer all data you use. Orchestra can operate across multiple Partners, please be sure that this access is covered by legal agreements with your clients before implementing Orchestra. This project is covered by the Apache License.
+
+## License
+
+Apache 2.0
